@@ -3,14 +3,14 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define the model 
+# Define model
 model = tf.keras.Sequential([
-  tf.keras.layers.Dense(10, activation="relu", input_shape(1,)),
+  tf.keras.layers.Dense(10, input_shape=(1,), activation="relu"),
   tf.keras.layers.Dense(1)
 ])
 
 # Compile the model
-model.compile(optimizer="sgd", loss "mean_squared_error")
+model.compile(optimizer="sgd", loss="mean_squared_error")
 
 # Get the number of values prompted from the user
 num_values = int(input("Enter the number of values you want to calculate: "))
