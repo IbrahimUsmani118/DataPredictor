@@ -1,40 +1,40 @@
-# Import the necessary modules
 import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
 
-# Define model
-model = tf.keras.Sequential([
-  tf.keras.layers.Dense(10, input_shape=(1,), activation="relu"),
-  tf.keras.layers.Dense(1)
+# Assume you have a pre-existing model
+pretrained_model = tf.keras.Sequential([
+    tf.keras.layers.Dense(10, input_shape=(1,), activation="relu"),
+    tf.keras.layers.Dense(1)
 ])
 
-# Compile the model
-model.compile(optimizer="sgd", loss="mean_squared_error")
+# Compile the pretrained model
+pretrained_model.compile(optimizer="sgd", loss="mean_squared_error")
 
-# Get the number of values prompted from the user
-num_values = int(input("Enter the number of values you want to calculate: "))
-input_values = []
+# Sample pre-existing data (you can replace this with your actual pre-existing dataset)
+pre_existing_inputs = np.array([[1.0], [2.0], [3.0]])
+pre_existing_outputs = np.array([2.0, 4.0, 6.0])
 
-# Get the input values prompted from the user
-for i in range(num_values):
-  input_value = float(input("Enter value {}: " .format(i+1)))
-  input_values.append([input_value])
-  
-input_data = tf.constant(input_values)
-predictions = model.predict(input_data)
+# Train the pre-existing model on initial data
+pretrained_model.fit(pre_existing_inputs, pre_existing_outputs, epochs=100, verbose=0)
 
-# Print the prediction
-print("Predictions: ", predictions)
+# Collect user input data to fine-tune the model
+num_user_values = int(input("Enter the number of additional values you want to train with: "))
+additional_inputs = []
+additional_outputs = []
 
-x = np.array(input_values).flatten()
-y = np.array(predictions).flatten()
+# Get additional input and output values from the user
+for i in range(num_user_values):
+    input_value = float(input("Enter input value {}: ".format(i + 1)))
+    output_value = float(input("Enter corresponding output value {}: ".format(i + 1)))
+    additional_inputs.append([input_value])
+    additional_outputs.append(output_value)
 
-# Plot the graph
-plt.scatter(x, y, color="blue", label="Prediction")
-plt.scatter(x, x, color="red", label="User Input")
-plt.xlabel("Input Values")
-plt.ylabel("Predictions")
-plt.title("Predictions vs Input Values")
-plt.legend()
-plt.show()
+additional_inputs = np.array(additional_inputs)
+additional_outputs = np.array(additional_outputs)
+
+# Fine-tune the pretrained model with user-provided data
+pretrained_model.fit(additional_inputs, additional_outputs, epochs=50, verbose=1)
+
+# Now the model has been updated with user-provided data
+# You can use this model for predictions or further training if needed
+
